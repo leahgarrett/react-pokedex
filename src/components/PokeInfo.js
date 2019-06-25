@@ -18,16 +18,30 @@ class PokeInfo extends Component {
     console.log('POKEINFO DID UPDATE')
     console.log(this.props.pokemon)
     console.log(prevProps.pokemon)
-    if (prevProps == null || prevProps.pokemon == null || this.props.pokemon == null ||
-       (prevProps.pokemon.id !== this.props.pokemon.id)) {
-      console.log('loading data')
-      const { url } = this.props.pokemon;
-      fetch(url)
-      .then(resp => resp.json())
-      .then(json => {
-        this.setState({ poke: json })
-      })
-    }
+    const checkPrevPropsExist = (prevProps != null && prevProps.pokemon != null);
+    const checkCurrentPropsExist = (this.props.pokemon != null)
+    console.log(`checkPrevPropsExist ${checkPrevPropsExist}`)
+    console.log(`checkCurrentPropsExist ${checkCurrentPropsExist}`)
+    if (checkCurrentPropsExist &&
+      checkPrevPropsExist) {
+        const checkSelectedPokeDifferent = (prevProps.pokemon.name !== this.props.pokemon.name);
+
+        console.log()
+
+        console.log(`prevProps.pokemon.id ${prevProps.pokemon.name}`)
+        console.log(`this.props.pokemon.id ${this.props.pokemon.name}`)
+        console.log(`checkSelectedPokeDifferent ${checkSelectedPokeDifferent}`)
+        if (  checkSelectedPokeDifferent) {
+          console.log('loading data')
+          const { url } = this.props.pokemon;
+          fetch(url)
+          .then(resp => resp.json())
+          .then(json => {
+            this.setState({ poke: json })
+          })
+        }
+      }
+
   }
   render() {
     console.log(this.state.poke)
